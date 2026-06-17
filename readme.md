@@ -1,4 +1,4 @@
-## ⚠️ Not maintained anymore as I moved to niri
+## ⚠️ Dotfiles based at Maciejonos.
 
 # Dotfiles for Hyprland on Arch Linux
 
@@ -11,18 +11,7 @@ Dotfiles setup with static and dynamic themes and plenty of useful scripts.
     <td><img src="demo/1.png" width="400"/></td>
     <td><img src="demo/8.png" width="400"/></td>
   </tr>
-  <tr>
-    <td><img src="demo/4.png" width="400"/></td>
-    <td><img src="demo/2.png" width="400"/></td>
-  </tr>
-  <tr>
-    <td><img src="demo/6.png" width="400"/></td>
-    <td><img src="demo/3.png" width="400"/></td>
-  </tr>
-</table>
-
-Quick info:
-
+  <tr> <td><img src="demo/4.png" width="400"/></td> <td><img src="demo/2.png" width="400"/></td> </tr> <tr> <td><img src="demo/6.png" width="400"/></td> <td><img src="demo/3.png" width="400"/></td> </tr> </table> Quick info:
 - [bin](bin) - all scripts live here, it is added to path in uwsm config
 - [install](install/install) - main installation script
 - [pkgs.txt](install/pkgs.txt) - packages to be installed
@@ -206,13 +195,13 @@ Just press SUPER + ALT + Space -> keybindings - all bindings nicely sorted here
 
 Most important ones:
 
-- SUPER + Q = Open Terminal
-- SUPER + W = Close window
+- SUPER + RETURN = Open Terminal
+- SUPER + Q = Close window
 - SUPER + R = Open Walker
 - SUPER + E = File manager
 - SUPER + V = Clipboard
 - SUPER + ALT + Space = Menu
-- SUPER + CTRL + W = Open Waypaper (to trigger dynamic color update - theme must be set to Matugen or Pywal)
+- SUPER + CTRL + W = Open awww 
 
 Walker bindings - `ctrl + x` to go back from submenu
 
@@ -239,3 +228,4 @@ The setup includes both static and dynamic theming:
 - <https://github.com/basecamp/omarchy>
 - <https://github.com/mylinuxforwork/dotfiles>
 - <https://github.com/elifouts/Dotfiles>
+- <https://github.com/mkbula/dotfiles>
