@@ -8,10 +8,13 @@ CURRENT_BACKGROUND_LINK="$HOME/.local/share/dotfiles/current/background"
 set_wallpaper() {
   local wallpaper="$1"
   ln -nsf "$wallpaper" "$CURRENT_BACKGROUND_LINK"
-
-  hyprctl monitors -j | jq -r '.[].name' | while read -r monitor; do
-    hyprctl hyprpaper reload "$monitor,$CURRENT_BACKGROUND_LINK"
-  done
+  
+  # Use awww-daemon for desktop wallpaper
+  awww img "$wallpaper" --transition-type center
+  
+  # Brief delay to ensure awww-daemon processes the change
+  sleep 0.3
+  
   log_success "Wallpaper set: $(basename "$wallpaper")"
 }
 

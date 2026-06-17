@@ -44,7 +44,5 @@ else
 
   ln -nsf "$NEW_BACKGROUND" "$CURRENT_BACKGROUND_LINK"
 
-  hyprctl monitors -j | jq -r '.[].name' | while read -r monitor; do
-    hyprctl hyprpaper reload "$monitor,$NEW_BACKGROUND"
-  done
+  awww img "$NEW_BACKGROUND" --transition-type center
 fi
