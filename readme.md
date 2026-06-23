@@ -53,7 +53,7 @@ Dotfiles setup with static and dynamic themes and plenty of useful scripts.
 ### Automatic installer
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Maciejonos/dotfiles/master/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Caio13Vinni/dotfiles/main/setup.sh | bash
 ```
 
 **⚠️ Important Notes:**

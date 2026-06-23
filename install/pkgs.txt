@@ -26,10 +26,12 @@ git
 lazygit
 neovim
 visual-studio-code-bin
+beekeeper-studio-bin
 
 # Browsers
 helium-browser-bin
 zen-browser-bin
+firefox
 
 # Hyprland
 hyprcursor
@@ -64,6 +66,7 @@ uwsm
 walker
 waybar
 zenity
+awww
 
 # Screen Recording & Video
 ffmpeg
@@ -88,6 +91,8 @@ nautilus
 nautilus-open-any-terminal
 rsync
 unzip
+gvfs-mtp
+ntfs-3g
 
 # System Utilities
 pacman-contrib
