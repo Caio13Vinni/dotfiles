@@ -11,8 +11,8 @@ hl.bind(var_mainMod .. " + E", hl.dsp.exec_cmd("uwsm app -- nautilus --new-windo
 -- Windows
 hl.bind(var_mainMod .. " + q", hl.dsp.window.close())
 hl.bind(var_mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("hyprctl activewindow | grep pid | tr -d 'pid:' | xargs kill"))
-hl.bind(var_mainMod .. " + SHIFT + space", hl.dsp.window.fullscreen())
-hl.bind(var_mainMod .. " + space", hl.dsp.window.fullscreen())
+hl.bind(var_mainMod .. " + SHIFT + space", hl.dsp.window.fullscreen({ mode = 0 }))
+hl.bind(var_mainMod .. " + space", hl.dsp.window.fullscreen({ mode = 1 }))
 hl.bind(var_mainMod .. " + I", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(var_mainMod .. " + J", hl.dsp.layout("togglesplit"))
 hl.bind(var_mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
@@ -39,7 +39,7 @@ hl.bind(var_mainMod .. " + ALT + down", hl.dsp.window.swap({ direction = "down" 
 -- Actions
 hl.bind(var_mainMod .. " + CTRL + N", hl.dsp.exec_cmd("sunsetr-toggle"))
 hl.bind(var_mainMod .. " + CTRL + O", hl.dsp.exec_cmd("ghostty --class=local.floating -e ollama-chat --quick"))
-hl.bind("CONTROL_SHIFT + space", hl.dsp.exec_cmd("hyprctl switchxkblayout sonix-usb-device next"))
+hl.bind("CTRL + SHIFT + space", hl.dsp.exec_cmd("hyprctl switchxkblayout sonix-usb-device next"))
 
 -- Walker and Elephant
 hl.bind(var_mainMod .. " + R", hl.dsp.exec_cmd("walker"))
@@ -101,7 +101,6 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("swayosd-client --playerctl next"))
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("swayosd-client --playerctl previous"))
 
 -- Lock
-hl.bind("XF86Lock", hl.dsp.exec_cmd("hyprlock"))
 
 -- TODO: the following entries need manual conversion to Lua:
 --   bind = $mainMod SHIFT, T, workspaceopt, allfloat
