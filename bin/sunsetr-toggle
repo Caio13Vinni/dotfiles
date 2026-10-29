@@ -1,14 +1,88 @@
 #!/bin/bash
 
-status=$(sunsetr status 2>&1)
+SERVICE="sunsetr.service"
+PRESET="dotfiles-night-light"
+PRESET_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/sunsetr/presets/$PRESET/sunsetr.toml"
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+PRESET_SOURCE="$SCRIPT_DIR/../default/sunsetr/presets/$PRESET/sunsetr.toml"
 
-if echo "$status" | grep -q "ERROR"; then
-  sunsetr -b >/dev/null 2>&1
-  sleep 0.5
-  status=$(sunsetr status 2>&1)
-  next_period=$(echo "$status" | grep "Next period" | awk '{$1=$2=""; print $0}' | sed 's/^ *//')
-  notify-send "sunsetr enabled" "Next period: $next_period"
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "$1" "$2" || printf '%s: %s\n' "$1" "$2" >&2
+  else
+    printf '%s: %s\n' "$1" "$2" >&2
+  fi
+}
+
+if ! command -v sunsetr >/dev/null 2>&1; then
+  notify "Night light error" "sunsetr was not found in PATH."
+  exit 1
+fi
+
+if [[ ! -f "$PRESET_FILE" ]]; then
+  if [[ ! -f "$PRESET_SOURCE" ]] || ! mkdir -p "$(dirname "$PRESET_FILE")" || ! cp "$PRESET_SOURCE" "$PRESET_FILE"; then
+    notify "Night light error" "Could not install the $PRESET preset."
+    exit 1
+  fi
+fi
+
+if ! command -v systemctl >/dev/null 2>&1; then
+  notify "Night light error" "systemctl was not found; cannot start $SERVICE."
+  exit 1
+fi
+
+if ! output=$(systemctl --user start "$SERVICE" 2>&1); then
+  notify "Night light error" "${output:-Failed to start $SERVICE.}"
+  exit 1
+fi
+
+active_preset=""
+ready=0
+for _ in {1..20}; do
+  if active_preset=$(sunsetr preset active 2>&1); then
+    ready=1
+    break
+  fi
+  sleep 0.1
+done
+
+if (( ! ready )); then
+  notify "Night light error" "sunsetr did not become ready. Check: systemctl --user status $SERVICE"
+  exit 1
+fi
+
+active_preset=${active_preset//$'\r'/}
+active_preset=${active_preset//$'\n'/}
+if [[ "$active_preset" == "$PRESET" ]]; then
+  expected_preset="default"
 else
-  sunsetr stop >/dev/null 2>&1
-  notify-send "sunsetr disabled"
+  expected_preset="$PRESET"
+fi
+
+if ! output=$(sunsetr preset "$PRESET" 2>&1); then
+  notify "Night light error" "${output:-Failed to switch the sunsetr preset.}"
+  exit 1
+fi
+
+active_preset=""
+for _ in {1..20}; do
+  if active_preset=$(sunsetr preset active 2>&1); then
+    active_preset=${active_preset//$'\r'/}
+    active_preset=${active_preset//$'\n'/}
+    if [[ "$active_preset" == "$expected_preset" ]]; then
+      break
+    fi
+  fi
+  sleep 0.1
+done
+
+if [[ "$active_preset" != "$expected_preset" ]]; then
+  notify "Night light error" "sunsetr did not activate the $expected_preset preset."
+  exit 1
+fi
+
+if [[ "$expected_preset" == "$PRESET" ]]; then
+  notify "Night light enabled" "Fixed 3300 K night-light preset is active."
+else
+  notify "Night light disabled" "sunsetr's automatic schedule was restored."
 fi
